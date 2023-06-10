@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +29,7 @@ public class Passenger {
     Date birthDate;
 
     @Valid
-    List<LuggageBag> luggage = new ArrayList<>();
+    List<LuggageBag> luggage;
 
     BigDecimal ticketPrice;
 

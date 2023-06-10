@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class BusTicketControllerTests {
+class BusTicketControllerTests {
 
     @Autowired
     WebTestClient webTestClient;

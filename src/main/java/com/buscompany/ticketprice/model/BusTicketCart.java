@@ -14,6 +14,8 @@ import lombok.Data;
 @Builder
 public class BusTicketCart {
 
+    //TODO: Create enum and use it instead of strings for bus terminal names
+
     @NotBlank(message = "Bus terminal name from must not be blank")
     String busTerminalNameFrom;
 

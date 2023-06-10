@@ -10,6 +10,7 @@ import com.buscompany.ticketprice.model.BusTicketCart;
 import com.buscompany.ticketprice.service.BasePriceService;
 import com.buscompany.ticketprice.service.BusTicketCartService;
 import com.buscompany.ticketprice.service.TaxService;
+import com.buscompany.ticketprice.utils.BusTerminalNameUtils;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,6 @@ public class BusTicketController {
     public static final String API_PATH = "/bus/ticket";
     public static final String CALCULATE_PATH = "/calculate";
 
-
     private final BasePriceService basePriceService;
     private final TaxService taxService;
     private final BusTicketCartService busTicketCartService;
@@ -32,7 +32,8 @@ public class BusTicketController {
         return Mono.fromCallable(() -> {
             BigDecimal basePrice = basePriceService.getBasePrice(busTicketCart.getBusTerminalNameFrom(),
                     busTicketCart.getBusTerminalNameTo());
-            Integer taxPercentage = taxService.getTodayTaxList().get("LV"); // TODO: Resolve tax from bus route
+            Integer taxPercentage = taxService.getTodayTaxList()
+                    .get(BusTerminalNameUtils.getCountryFromBusTerminalName(busTicketCart.getBusTerminalNameFrom()));
             busTicketCartService.updateCartPrices(busTicketCart, basePrice, taxPercentage);
             return busTicketCart;
         });
