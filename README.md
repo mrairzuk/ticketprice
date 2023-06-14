@@ -23,3 +23,103 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```shell
 mvn spring-boot:run
 ```
+
+## How to use
+
+After running the application it has one HTTP POST endpoint available at `/bus/ticket/calculate`
+It awaits a JSON formatted bus ticket cart object as a request body. The answer will contain the same request object,
+but with calculated prices for each passenger and luggage bag.
+
+Request example:
+
+```json
+{
+	"busTerminalNameFrom": "test",
+	"busTerminalNameTo": "test2",
+	"passengers": [
+		{
+			"name": "name1",
+			"surname": "surname1",
+			"birthDate": "2000-06-08",
+			"luggage": [
+				{
+					"weight": 20,
+					"height": 10,
+					"width": 10,
+					"length": 50
+				},
+				{
+					"weight": 20,
+					"height": 10,
+					"width": 10,
+					"length": 54
+				}
+			]
+		},
+		{
+			"name": "name2",
+			"surname": "surname2",
+			"birthDate": "2007-06-08",
+			"luggage": [
+				{
+					"weight": 20,
+					"height": 10,
+					"width": 10,
+					"length": 54
+				}
+			]
+		}
+	]
+}
+```
+
+Response example:
+
+```json
+{
+	"busTerminalNameFrom": "test",
+	"busTerminalNameTo": "test2",
+	"passengers": [
+		{
+			"name": "name2",
+			"surname": "surname2",
+			"birthDate": "2007-06-08",
+			"luggage": [
+				{
+					"height": 10,
+					"width": 10,
+					"length": 54,
+					"weight": 20.0,
+					"price": 3.63
+				}
+			],
+			"ticketPrice": 6.05,
+			"child": true
+		},
+		{
+			"name": "name1",
+			"surname": "surname1",
+			"birthDate": "2000-06-08",
+			"luggage": [
+				{
+					"height": 10,
+					"width": 10,
+					"length": 50,
+					"weight": 20.0,
+					"price": 3.63
+				},
+				{
+					"height": 10,
+					"width": 10,
+					"length": 54,
+					"weight": 20.0,
+					"price": 3.63
+				}
+			],
+			"ticketPrice": 12.10,
+			"child": false
+		}
+	],
+	"totalPrice": 29.04
+}
+```
